@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - BingBong AI</title>
+    <link rel="stylesheet" href="{% static 'bingbong_webapp/css/login.css' %}"> 
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            {% csrf_token %}  <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script src="{% static 'bingbong_webapp/js/script.js' %}"></script> 
+</body>
+</html>

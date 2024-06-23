@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Mental Health Chatbot</h1>
+    <div id="chatbox">
+        <div id="chat-messages"></div>
+        <input type="text" id="user-input">
+        <button id="send-btn">Send</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#send-btn').click(function() {
+                var userMessage = $('#user-input').val().trim();
+                $('#chat-messages').append('<p><strong>You:</strong> ' + userMessage + '</p>');
+
+                $.ajax({
+                    url: '/process_message/',
+                    type: 'POST',
+                    data: {
+                        'message': userMessage,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $('#chat-messages').append('<p><strong>Chatbot:</strong> ' + response.response + '</p>');
+                        $('#user-input').val('');
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(errmsg);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

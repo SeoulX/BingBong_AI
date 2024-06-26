@@ -1,0 +1,76 @@
+{% load static %}
+
+  
+    <link href="{% static 'bingbong_devapp/css/signup.css' %}" rel="stylesheet" />
+   
+    <div class="center">
+        <button id="show-signup">Sign Up</button>
+    </div>
+    <div class="popup">
+        <div class="close-btn" onclick="closeSignUp()">&times;</div>
+        {% csrf_token %}
+            <div class="form">
+                <div class="logo1">
+                    <a href="#">
+                        <img
+                        src="{% static 'bingbong_devapp/img/bingbong.png' %}"
+                        alt="Logo"
+                        width="150"
+                        />
+                    </a>
+                </div>
+                <h3>Create Account</h3>
+                <hr></hr>
+                <div class ="form-element">
+                    <label for="username">Username</label>
+                </div>
+                <div class ="form-element">
+                    <input type="text" placeholder="Username" id="username" name="username" maxlength="30" required>
+                </div>
+                <div class ="form-element">
+                    <label for="email">Email</label>
+                </div>
+                <div class ="form-element">
+                    <input type="text" placeholder="Email" id="email" name="email" maxlength="30" required>
+                </div>
+                <div class ="form-element">
+                    <label for="password">Password</label>
+                    <label for="confirmpassword">Confirm Password</label>
+                </div>
+                <div class ="form-element">
+                    <input type="password" placeholder="Password" id="password" name="password" maxlength="16" required>
+                    <input type="password" placeholder="Confirm Password" id="confirmpassword" name="confirmpass" maxlength="16" required>
+                </div>
+                <div class="form-element">
+                    <input type="checkbox" id="showpassword" onclick="showPass">
+                    <label for="showpassword">Show Password</label>
+                </div>
+                <div class="form-element">
+                    <label for="role">Please select your role:</label>
+                    <br/>
+                    <div class="role" style="display: flex; align-items: flex-start; justify-content: center;">
+                        <div class="read" style="text-align: center; margin-right: 100px;">
+                            <img src="{% static 'livrowebapp/img/reader.png' %}" alt="Image" width="75px">
+                            <br/>
+                            <input type="radio" id="reader" name="type_user" value="Reader" style="margin-top: 5px;" checked/>
+                            <label for="reader">Reader</label>
+                        </div>
+                        <div class="read" style="text-align: center;">
+                            <img src="{% static 'livrowebapp/img/writer.png' %}" alt="Image" width="75px">
+                            <br/>
+                            <input type="radio" id="writer" name="type_user" value="Writer" style="margin-top: 5px;" />
+                            <label for="writer">Writer</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-element">
+                    <button type="submit">Create Account</button>
+                </div>
+                <div class="form-element">
+                    <label for="account">Already have an account?</label>
+                    <a href="/signin/">Sign In</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'livrowebapp/js/signup.js' %}"></script>

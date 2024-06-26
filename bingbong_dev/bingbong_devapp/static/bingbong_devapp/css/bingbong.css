@@ -1,0 +1,127 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .chat-wrapper {
+    display: flex;
+    width: 80%;
+    max-width: 900px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-container {
+    flex: 2; /* Adjust size ratio for chat and side panel */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-history-container {
+    flex: 1; /* Allow chat history to expand */
+    overflow-y: scroll;
+    padding-bottom: 10px;
+  }
+  
+  .chat-history {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .chat-history li {
+    margin-bottom: 10px;
+  }
+  
+  .user-message,
+  .bot-message {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .user-message {
+    background-color: #e5e5e5;
+    color: #000;
+    align-self: flex-start;
+    clear: both; /* Prevent user messages from wrapping to next line */
+  }
+  
+  .bot-message {
+    background-color: #f0f0f0;
+    color: #333;
+    align-self: flex-end;
+    clear: both; /* Prevent bot messages from wrapping to next line */
+  }
+  
+  .chat-input {
+    display: flex;
+    align-items: center;
+  }
+  
+  #message {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  #send-btn {
+    padding: 10px 15px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .side-panel {
+    flex: 1; /* Adjust size ratio for chat and side panel */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ddd;
+  }
+  
+  .user-info {
+    margin-bottom: 20px;
+  }
+  
+  .history-container {
+    flex: 1; /* Allow chat history list to expand */
+    overflow-y: scroll;
+  }
+  
+  .history-container h2 {
+    margin-bottom: 10px;
+  }
+  
+  .chat-history-list {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .chat-history-list li {
+    margin-bottom: 5px;
+    font-size: 0.8rem; /* Adjust font size for history list */
+  }
+  
+  #logout-btn {
+    padding: 10px 15px;
+    background-color: #ccc;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: auto; /* Move logout button to bottom */
+  }
+  

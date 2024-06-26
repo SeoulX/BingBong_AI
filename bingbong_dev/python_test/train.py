@@ -6,7 +6,7 @@ from fuzzywuzzy import process
 
 nlp = spacy.load("en_core_web_sm")
 
-with open('kb.json', 'r') as file:
+with open('bingbong_dev\python_test\KB.json', 'r') as file:
     kb_data = json.load(file)
 
 context_list = []

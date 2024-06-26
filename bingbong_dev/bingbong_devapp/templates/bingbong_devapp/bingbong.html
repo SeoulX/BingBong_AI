@@ -2,33 +2,101 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot</title>
-  <link rel="stylesheet" href="{% static 'bingbong_devapp/css/bingbong.css' %}"> </head>
-<body>
-  <div class="chat-wrapper">
-    <div class="chat-container">
-      <div class="chat-history-container">
-        <ul class="chat-history">
-        </ul>
-      </div>
-      <div class="chat-input">
-        <input type="text" id="message" placeholder="Type your message here..." autocomplete="off">
-        <button id="send-btn">Send</button>
-      </div>
-    </div>
-    <div class="side-panel">
-      <div class="user-info">
-        </div>
-      <div class="history-container">
-        <h2>History</h2>
-        <ul class="chat-history-list">
-          </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mental Health Chatbot</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'bingbong_devapp/css/bingbong.css' %}"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      /* CSS styles here (as provided previously) */
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo1">
+        <a href="#">
+          <img
+            src="{% static 'bingbong_devapp/img/bingbong.png' %}"
+            alt="Logo"
+            width="150"
+          />
+        </a>
       </div>
       <button id="logout-btn">Log Out</button>
+    </header>
+    <div class="chat-wrapper">
+      <div id="history-panel" class="side-panel">
+        <div class="history-container">
+          <h2>History</h2>
+          <ul class="chat-history-list">
+            <!-- Chat history list -->
+          </ul>
+        </div>
+      </div>
+      <div id="chat-container" class="chat-container">
+        <div id="chat-messages" class="chat-history">
+          <!-- Messages will be dynamically added here -->
+        </div>
+      </div>
     </div>
-  </div>
-  <script src="{% static 'bingbong_webapp/js/bingbong.js' %}"></script> </body>
+    <div class="chat-input">
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Type your message here..."
+        autocomplete="off"
+      />
+      <button id="send-btn">Send</button>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#send-btn").click(function () {
+          var userMessage = $("#user-input").val().trim();
+          $("#chat-messages").append(
+            '<p class="user-message"><strong>You:</strong> ' +
+              userMessage +
+              "</p>"
+          );
+
+          $.ajax({
+            url: "/process_message/",
+            type: "POST",
+            data: {
+              message: userMessage,
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            success: function (response) {
+              $("#chat-messages").append(
+                '<p class="bot-message"><strong>Chatbot:</strong> ' +
+                  response.response +
+                  "</p>"
+              );
+              $("#user-input").val("");
+              scrollToBottom(); // Scroll to bottom after receiving response
+            },
+            error: function (xhr, errmsg, err) {
+              console.log(errmsg);
+            },
+          });
+
+          scrollToBottom(); // Scroll to bottom after sending message
+        });
+
+        // Other existing code...
+
+        // Function to scroll to the bottom of the chat messages
+        function scrollToBottom() {
+          $("#chat-container").animate(
+            { scrollTop: $("#chat-messages").prop("scrollHeight") },
+            500
+          );
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -19,5 +19,5 @@ from django.urls import path, include
 from bingbong_devapp import views
 
 urlpatterns = [
-    path('', views.login_view, name='home'),
+    path('', views.home, name='home'),
 ]

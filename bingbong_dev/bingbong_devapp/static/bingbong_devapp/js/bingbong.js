@@ -1,4 +1,4 @@
-const messageInput = document.getElementById('message');
+const messageInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 const chatHistory = document.querySelector('.chat-history');
 
@@ -7,26 +7,43 @@ sendBtn.addEventListener('click', sendMessage);
 function sendMessage() {
   const message = messageInput.value.trim();
   if (message) {
-    // Create message element (list item)
-    const messageElement = document.createElement('li'); // Changed from 'p' to 'li' for consistency with HTML structure
-    messageElement.innerText = message;
-    messageElement.classList.add('user-message');
-
-    // **Crucial Fix: Append user message first**
-    chatHistory.appendChild(messageElement); 
+    // Create user message element
+    appendMessage(message, 'user-message');
 
     // Clear input field
     messageInput.value = '';
 
-    // Simulate bot response (replace with API call)
-    const botResponse = "I'm getting smarter, ask me anything!"; // Replace with API response
-    appendMessage(botResponse, 'bot-message');
+    // Send message to server for processing
+    sendToServer(message);
   }
 }
 
+function sendToServer(message) {
+  $.ajax({
+    url: "/process_message/",
+    type: "POST",
+    data: {
+      message: message,
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    },
+    success: function (response) {
+      // Display bot's response
+      appendMessage(response.response, 'bot-message');
+      scrollToBottom();
+    },
+    error: function (xhr, errmsg, err) {
+      console.log(errmsg);
+    },
+  });
+}
+
 function appendMessage(message, className) {
-  const messageElement = document.createElement('li'); // Changed from 'p' to 'li' for consistency with HTML structure
+  const messageElement = document.createElement('li');
   messageElement.innerText = message;
   messageElement.classList.add(className);
-  chatHistory.appendChild(messageElement);  // Append the message to chat history
+  chatHistory.appendChild(messageElement);
+}
+
+function scrollToBottom() {
+  chatHistory.scrollTop = chatHistory.scrollHeight;
 }

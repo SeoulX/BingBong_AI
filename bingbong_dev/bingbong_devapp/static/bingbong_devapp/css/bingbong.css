@@ -115,3 +115,7 @@ header {
 #send-btn:hover, #logout-btn:hover {
   background-color: #FF85A5; /* Tickle Me Pink */
 }
+
+.chat-history{
+  margin-top: 30px;
+}

@@ -7,9 +7,12 @@ from django.db.models import Q
 from django.http import JsonResponse
 from functools import wraps
 from django.db.models import Count
+from django.views.decorators.csrf import csrf_exempt
+from .bingbong import get_response
+
 
 def land(request):
-    return render(request, 'bingbong_devapp/landing.html')
+    return render(request, 'bingbong_devapp/bingbong.html')
 
 def signin(request):
     if request.method == "GET":
@@ -51,5 +54,15 @@ def signup(request):
     else:
         return render(request, 'bingbong_devapp/signup.html')
 
-
+@csrf_exempt
+def process_message(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message', '')
+        if user_message.lower() == 'exit':
+            return JsonResponse({'response': "Bot: Goodbye!"})
+        
+        bot_response = get_response(user_message)
+        return JsonResponse({'response': bot_response})
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
     

@@ -7,7 +7,8 @@ import os
 
 nlp = spacy.load("en_core_web_sm")
 
-json_file_path = r'C:\Users\Drian\Desktop\Summer Class\SE2\BingBong_AI\bingbong_dev\bingbong_devapp\KB.json'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get current file's directory
+json_file_path = os.path.join(BASE_DIR, 'KB.json')
 
 with open(json_file_path, 'r') as file:
     kb_data = json.load(file)

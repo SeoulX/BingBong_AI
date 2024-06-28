@@ -8,6 +8,9 @@ from django.http import JsonResponse
 from functools import wraps
 from django.db.models import Count
 
+def land(request):
+    return render(request, 'bingbong_devapp/landing.html')
+
 def signin(request):
     if request.method == "GET":
         identifier = request.GET.get('identifier')

@@ -1,87 +1,203 @@
 import json
+import os
+import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.model_selection import GridSearchCV, cross_val_score
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from wordcloud import WordCloud
 import tensorflow as tf
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout, Bidirectional, TimeDistributed
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.callbacks import EarlyStopping
-import os
+from tensorflow.keras.layers import Embedding, LSTM, Dense, SpatialDropout1D
+from tensorflow.keras.utils import to_categorical
 
-# 1. Load and Prepare Data from KB.json
+nltk.download('stopwords')
+nltk.download('wordnet')
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(BASE_DIR, 'KB.json')
 
-# 1. Load and Prepare Data
-def load_dataset(filepath):
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    inputs, responses = [], []
-    for intent in data['intents']:
-        if 'responses' in intent and intent['responses']:
-            for pattern in intent['patterns']:
-                inputs.append(pattern)
-                responses.append(intent['responses'][0])
-    return inputs, responses
+with open(file_path, 'r') as file:
+    data = json.load(file)
 
-# Load data before model preparation
-inputs, responses = load_dataset(file_path)
+tags = []
+patterns = []
+responses = []
 
-# 2. Prepare Data for Model
-vocab_size = 10000
-embedding_dim = 128
-max_length = 20
-trunc_type = 'post'
-oov_token = "<OOV>"
+for intent in data['intents']:
+    for pattern in intent['patterns']:
+        tags.append(intent['tag'])
+        patterns.append(pattern)
+        if 'responses' in intent:
+            responses.append(intent['responses'][0])
+        else:
+            responses.append(None)
 
-tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_token)
-tokenizer.fit_on_texts(inputs + responses)
+df = pd.DataFrame({'tag': tags, 'pattern': patterns, 'response': responses})
+df.head()
+
+lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
+
+def preprocess_text(text):
+    text = text.lower()
+    text = ''.join([char for char in text if char.isalpha() or char == ' '])
+    text = ' '.join([lemmatizer.lemmatize(word) for word in text.split() if word not in stop_words])
+    return text
+
+df['pattern_cleaned'] = df['pattern'].apply(preprocess_text)
+df['response_cleaned'] = df['response'].apply(lambda x: preprocess_text(x) if x else "")
+
+df.head()
+
+lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
+
+def preprocess_text(text):
+    text = text.lower()
+    text = ''.join([char for char in text if char.isalpha() or char == ' '])
+    text = ' '.join([lemmatizer.lemmatize(word) for word in text.split() if word not in stop_words])
+    return text
+
+df['pattern_cleaned'] = df['pattern'].apply(preprocess_text)
+df['response_cleaned'] = df['response'].apply(lambda x: preprocess_text(x) if x else "")
+
+df.head()
+
+vectorizer = TfidfVectorizer(max_features=5000)
+X = vectorizer.fit_transform(df['pattern_cleaned']).toarray()
+y = df['tag']
+
+from sklearn.preprocessing import LabelEncoder
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+print(X_train.shape, X_test.shape)
+print(y_train.shape, y_test.shape)
+
+nb_model = MultinomialNB()
+nb_model.fit(X_train, y_train)
+nb_pred = nb_model.predict(X_test)
+
+svm_model = SVC(kernel='linear')
+svm_model.fit(X_train, y_train)
+svm_pred = svm_model.predict(X_test)
+
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train, y_train)
+rf_pred = rf_model.predict(X_test)
+
+param_grid = {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']}
+grid_search = GridSearchCV(SVC(), param_grid, refit=True, verbose=2)
+grid_search.fit(X_train, y_train)
+svm_best = grid_search.best_estimator_
+
+nb_cv_scores = cross_val_score(nb_model, X, y, cv=5)
+svm_cv_scores = cross_val_score(svm_best, X, y, cv=5)
+rf_cv_scores = cross_val_score(rf_model, X, y, cv=5)
+
+def evaluate_model(model, X_test, y_test, y_pred):
+    unique_labels = np.unique(np.concatenate((y_test, y_pred)))
+    target_names = label_encoder.inverse_transform(unique_labels)
+    print("Accuracy:", accuracy_score(y_test, y_pred))
+    print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+    print("Classification Report:\n", classification_report(y_test, y_pred, target_names=target_names, zero_division=0))
+
+
+print("Naive Bayes Model")
+evaluate_model(nb_model, X_test, y_test, nb_pred)
+print("Cross-validation scores:", nb_cv_scores)
+print("Mean CV score:", np.mean(nb_cv_scores))
+
+
+print("\nSVM Model")
+evaluate_model(svm_model, X_test, y_test, svm_pred)
+print("Cross-validation scores:", svm_cv_scores)
+print("Mean CV score:", np.mean(svm_cv_scores))
+
+
+print("\nRandom Forest Model")
+evaluate_model(rf_model, X_test, y_test, rf_pred)
+print("Cross-validation scores:", rf_cv_scores)
+print("Mean CV score:", np.mean(rf_cv_scores))
+
+
+print("\nBest SVM Model (Grid Search)")
+svm_best_pred = svm_best.predict(X_test)
+evaluate_model(svm_best, X_test, y_test, svm_best_pred)
+
+conf_matrix = confusion_matrix(y_test, svm_best_pred)
+plt.figure(figsize=(14, 10))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=label_encoder.inverse_transform(np.unique(y_test)), yticklabels=label_encoder.inverse_transform(np.unique(y_test)))
+plt.title('Confusion Matrix for Best SVM Model')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.xticks(rotation=45, ha='right')
+plt.yticks(rotation=0)
+plt.show()
+
+all_patterns = ' '.join(df['pattern_cleaned'])
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_patterns)
+
+plt.figure(figsize=(10, 6))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.title('Most Common Words in Patterns')
+plt.show()
+
+MAX_NB_WORDS = 5000
+MAX_SEQUENCE_LENGTH = 250
+EMBEDDING_DIM = 100
+
+tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
+tokenizer.fit_on_texts(df['pattern_cleaned'].values)
 word_index = tokenizer.word_index
+X_lstm = tokenizer.texts_to_sequences(df['pattern_cleaned'].values)
+X_lstm = pad_sequences(X_lstm, maxlen=MAX_SEQUENCE_LENGTH)
+y_lstm = pd.get_dummies(df['tag']).values
 
-input_sequences = tokenizer.texts_to_sequences(inputs)
-padded_inputs = pad_sequences(input_sequences, maxlen=max_length, truncating=trunc_type)
-output_sequences = tokenizer.texts_to_sequences(responses)
-padded_outputs = pad_sequences(output_sequences, maxlen=max_length, truncating=trunc_type)
+X_train_lstm, X_test_lstm, y_train_lstm, y_test_lstm = train_test_split(X_lstm, y_lstm, test_size=0.2, random_state=42)
 
-# 3. Build Model
-model = Sequential([
-    Embedding(vocab_size, embedding_dim, input_length=max_length),
-    Bidirectional(LSTM(128, return_sequences=True)),  # Bidirectional LSTM
-    Dropout(0.2),  # Dropout for regularization
-    LSTM(128, return_sequences=True),
-    Dropout(0.2),
-    TimeDistributed(Dense(vocab_size, activation='softmax'))
-])
+model_lstm = Sequential()
+model_lstm.add(Embedding(MAX_NB_WORDS, EMBEDDING_DIM, input_length=MAX_SEQUENCE_LENGTH))
+model_lstm.add(SpatialDropout1D(0.2))
+model_lstm.add(LSTM(100, dropout=0.2, recurrent_dropout=0.2))
+model_lstm.add(Dense(len(y_lstm[0]), activation='softmax'))
+model_lstm.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# Compile Model
-model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+history = model_lstm.fit(X_train_lstm, y_train_lstm, epochs=5, batch_size=64, validation_data=(X_test_lstm, y_test_lstm), verbose=2)
 
-# Implement Early Stopping
-early_stopping = EarlyStopping(monitor='val_loss', patience=3)  # Add early stopping
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.plot(history.history['accuracy'], label='train accuracy')
+plt.plot(history.history['val_accuracy'], label='val accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.subplot(1, 2, 2)
+plt.plot(history.history['loss'], label='train loss')
+plt.plot(history.history['val_loss'], label='val loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
 
-# 4. Train Model (with Validation Split)
-history = model.fit(padded_inputs, padded_outputs, epochs=50, batch_size=32, validation_split=0.2, callbacks=[early_stopping])  # Validation split
+y_test_lstm_pred = model_lstm.predict(X_test_lstm)
+y_test_lstm_pred_class = np.argmax(y_test_lstm_pred, axis=1)
+y_test_lstm_class = np.argmax(y_test_lstm, axis=1)
 
-# 5. Chat Loop
-def chat():
-    print("Bot: Hi there! How are you feeling today?")
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() == 'quit':
-            break
-
-        input_seq = tokenizer.texts_to_sequences([user_input])
-        padded_seq = pad_sequences(input_seq, maxlen=max_length, padding='post')
-        predicted_seq = model.predict(padded_seq)[0]
-        predicted_word_index = np.argmax(predicted_seq, axis=-1)
-
-        reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
-        decoded_text = " ".join([reverse_word_index.get(i, "?") for i in predicted_word_index])
-        print("Bot:", decoded_text)
-
-# Load or train the model
-model_path = 'my_chatbot_model.h5'
-if os.path.exists(model_path):
-    model = tf.keras.models.load_model(model_path)
-else:
-    chat() 
+print("LSTM Model")
+evaluate_model(model_lstm, X_test_lstm, y_test_lstm_class, y_test_lstm_pred_class)

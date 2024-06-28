@@ -5,11 +5,15 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, GlobalAveragePooling1D, Dense
+import os
 
 # 1. Load and Prepare Data from kb.json
 
-with open('kb.json', 'r') as file:
-    data = json.load(file)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get current file's directory
+json_file_path = os.path.join(BASE_DIR, 'KB.json')
+
+with open(json_file_path, 'r') as file:
+    kb_data = json.load(file)
 
 texts = []
 labels = []

@@ -28,6 +28,7 @@ def signin(request):
                     'email': member.email,
                     'password' : member.password,
                 }
+            return redirect('bingbong')
         except Member.DoesNotExist as e:
             print(f"Error: {e}")
             return render(request, 'bingbong_devapp/login.html')
@@ -53,6 +54,9 @@ def signup(request):
                 return redirect('login')
     else:
         return render(request, 'bingbong_devapp/signup.html')
+    
+def bingbong(request):
+    return render(request, 'bingbong_devapp/bingbong.html')
 
 @csrf_exempt
 def process_message(request):

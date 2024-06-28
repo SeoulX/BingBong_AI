@@ -72,7 +72,8 @@ body{
     color: #655C9E;
 }
 
-.popup .form .form-element input[type="text"] {
+.popup .form .form-element input[type="text"],
+.popup .form .form-element input[type="email"] {
     margin-top: 5px;
     display: block;
     width: 100%;
@@ -89,7 +90,7 @@ body{
 .popup .form .form-element input[type="confirmpassword"] {
     margin-top: 5px;
     display: block;
-    width: 48%;
+    width: 49.5%;
     padding: 10px;
     outline: none;
     border: 1px solid #aaa;
@@ -107,7 +108,7 @@ body{
 .popup .form .form-element input[type="confirmpassword"].show-password {
     margin-top: 5px;
     display: block;
-    width: 48%;
+    width: 49.5%;
     padding: 10px;
     outline: none;
     border: 1px solid #aaa;

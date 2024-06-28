@@ -19,5 +19,7 @@ from django.urls import path, include
 from bingbong_devapp import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('admin/', admin.site.urls),
+    path("bingbong_devapp/", include('django.contrib.auth.urls')),
+    path('', include('bingbong_devapp.urls'))
 ]

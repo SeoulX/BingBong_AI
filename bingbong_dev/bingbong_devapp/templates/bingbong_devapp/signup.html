@@ -1,58 +1,52 @@
 {% load static %}
 
-  
-    <link href="{% static 'bingbong_devapp/css/signup.css' %}" rel="stylesheet" />
-   
-    <div class="center">
-        <button id="show-signup">Sign Up</button>
-    </div>
-    <div class="popup">
-        <div class="close-btn" onclick="closeSignUp()">&times;</div>
+<link href="{% static 'bingbong_devapp/css/signup.css' %}" rel="stylesheet" />
+
+<div class="center">
+    <button id="show-signup">Sign Up</button>
+</div>
+<div class="popup">
+    <div class="close-btn" onclick="closeSignUp()">&times;</div>
+    <div class="form">
+        <div class="logo1">
+            <a href="#">
+                <img src="{% static 'bingbong_devapp/img/bingbong.png' %}" alt="Logo" width="150" />
+            </a>
+        </div>
+        <h3>Create Account</h3>
+        <hr>
+        <form id="signupForm" onsubmit="return validateForm()" method="post" action="{% url 'signup' %}"> 
         {% csrf_token %}
-            <div class="form">
-                <div class="logo1">
-                    <a href="#">
-                        <img
-                        src="{% static 'bingbong_devapp/img/bingbong.png' %}"
-                        alt="Logo"
-                        width="150"
-                        />
-                    </a>
-                </div>
-                <h3>Create Account</h3>
-                <hr></hr>
-                <div class ="form-element">
-                    <label for="username">Username</label>
-                </div>
-                <div class ="form-element">
-                    <input type="text" placeholder="Username" id="username" name="username" maxlength="30" required>
-                </div>
-                <div class ="form-element">
-                    <label for="email">Email</label>
-                </div>
-                <div class ="form-element">
-                    <input type="text" placeholder="Email" id="email" name="email" maxlength="30" required>
-                </div>
-                <div class ="form-element">
-                    <label for="password">Password</label>
-                    <label for="confirmpassword">Confirm Password</label>
-                </div>
-                <div class ="form-element">
-                    <input type="password" placeholder="Password" id="password" name="password" maxlength="16" required>
-                    <input type="password" placeholder="Confirm Password" id="confirmpassword" name="confirmpass" maxlength="16" required>
-                </div>
-                <div class="form-element">
-                    <input type="checkbox" id="showpassword" onclick="showPass">
-                    <label for="showpassword">Show Password</label>
-                </div>
-                <div class="form-element">
-                    <button type="submit">Create Account</button>
-                </div>
-                <div class="form-element">
-                    <label for="account">Already have an account?</label>
-                    <a href="/signin/">Sign In</a>
-                </div>
+            <div class="form-element">
+                <label for="username">Username</label>
+                <input type="text" placeholder="Username" id="username" name="username" maxlength="30" required>
+            </div>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="email" placeholder="Email" id="email" name="email" maxlength="30" required>
+            </div>
+            <div class="form-element">
+                <label for="password">Password</label>
+                <label for="confirmpassword">Confirm Password</label>
+            </div>
+            <div class="form-element">
+                <input type="password" placeholder="Password" id="password" name="password" maxlength="16" required>
+                <input type="password" placeholder="Confirm Password" id="confirmpassword" name="confirmpassword" maxlength="16" required>
+            </div>
+            <div class="form-element">
+                <input type="checkbox" id="showpassword" onclick="showPass()">
+                <label for="showpassword">Show Password</label>
+            </div>
+            <div class="form-element">
+                <button type="submit">Create Account</button>
             </div>
         </form>
+
+        <div class="form-element">
+            <label for="account">Already have an account?</label>
+            <a href="/signin/">Sign In</a>
+        </div>
     </div>
-    <script src="{% static 'bingbong_devapp/js/login.js' %}"></script>
+</div>
+
+<script src="{% static 'bingbong_devapp/js/signup.js' %}"></script>

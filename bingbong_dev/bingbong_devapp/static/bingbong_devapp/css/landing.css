@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background: linear-gradient(90deg, #ffffff, #7e8d4f);
+    text-align: center;
+    overflow-x: hidden; /* Change to prevent horizontal overflow */
+  }
+  
+  header {
+    padding: 30px 0;
+    background-color: #AA6FBF;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  nav li {
+    cursor: pointer;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+  .hero {
+    background: url('https://source.unsplash.com/random/1920x1080') no-repeat center center/cover;
+    min-height: calc(100vh - 60px); /* Adjust height to account for header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px; /* Add margin to prevent overlapping with header */
+  }
+  
+  .intro {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 800px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Adjust as needed */
+  }
+  
+  .logo img {
+    width: 500px; /* Adjust logo size */
+  }
+  
+  .intro h1 {
+    font-size: 56px;
+    margin: 20px 0;
+    color: #AA6FBF;
+  }
+  
+  .intro h2 {
+    font-size: 32px;
+    margin: 20px 0 10px;
+    color: #AA6FBF;
+  }
+  
+  .intro p {
+    font-size: 24px;
+    margin: 20px 0;
+    color: #333;
+  }
+  
+  .buttons {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .btn {
+    display: inline-block;
+    margin: 15px;
+    padding: 20px 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #4A90E2;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #AA6FBF;
+  }
+  

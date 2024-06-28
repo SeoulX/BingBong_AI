@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> BingBong AI</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'bingbong_devapp/css/landing.css' %}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="https://github.com/SeoulX/BingBong_AI" target="_blank"
+              >Github</a
+            >
+          </li>
+          <li><a href="#about">About BingBong AI</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="hero">
+        <div class="intro">
+            <div class="logo">
+                <a href="#">
+                  <img
+                    src="{% static 'bingbong_devapp/img/bingbong.png' %}"
+                    alt="Logo"
+                  />
+                </a>
+              </div>
+          <h1>Introducing BingBong AI</h1>
+          <p>
+            We’ve trained a model called BingBong AI, a simple AI chatbot
+            powered by Natural Language Processing (NLP) techniques,
+            specifically Text Classification and Sentiment Analysis.
+          </p>
+          <p>
+            BingBong AI interacts in a conversational way. The dialogue format
+            makes it possible for BingBong to answer follow-up questions, admit
+            its mistakes, challenge incorrect premises, and reject inappropriate
+            requests.
+          </p>
+          <p>This repository contains the source code for BingBong AI.</p>
+          <h2>Features</h2>
+          <p>
+            <strong>Sentiment Analysis:</strong> BingBong can identify the
+            sentiment (positive, negative, neutral) of user input, enabling it
+            to adjust its responses accordingly.
+          </p>
+          <h2>Usage</h2>
+          <p>
+            BingBong AI is designed to be a simple and interactive chatbot. You
+            can interact with it by typing your messages in the terminal window.
+            Based on the text classification and sentiment analysis, BingBong
+            will generate appropriate responses.
+          </p>
+          <p>
+            We are excited to introduce BingBong AI to get users’ feedback and
+            learn about its strengths and weaknesses. During the research
+            preview, usage of BingBong AI is free. Try it now!
+          </p>
+          <div class="buttons">
+            <a href="#" class="btn">Try BingBong AI</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

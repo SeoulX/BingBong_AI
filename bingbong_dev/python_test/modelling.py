@@ -70,6 +70,8 @@ if inputs and responses:
     batch_size = 32
     steps_per_epoch = len(padded_inputs) // batch_size
     model.fit(data_generator(padded_inputs, padded_outputs, batch_size), epochs=10, steps_per_epoch=steps_per_epoch)
+    
+    model.save('my_chatbot_model.h5')
         
     # 4. Chat Interaction Loop
     def chat():

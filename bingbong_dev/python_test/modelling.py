@@ -49,7 +49,7 @@ if inputs and responses:
         Embedding(vocab_size, embedding_dim),
         LSTM(128, return_sequences=True),
         LSTM(128, return_sequences=True),   # Note: return_sequences=True for both LSTMs
-        TimeDistributed(Dense(1)),           # Added TimeDistributed wrapper
+        TimeDistributed(Dense(vocab_size, activation='softmax')),           # Added TimeDistributed wrapper
     ])
     
     # use sparse_categorical_crossentropy loss

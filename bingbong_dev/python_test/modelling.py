@@ -201,3 +201,11 @@ y_test_lstm_class = np.argmax(y_test_lstm, axis=1)
 
 print("LSTM Model")
 evaluate_model(model_lstm, X_test_lstm, y_test_lstm_class, y_test_lstm_pred_class)
+
+model_directory = os.path.join(BASE_DIR, "saved_models")
+
+if not os.path.exists(model_directory):
+    os.makedirs(model_directory)
+    
+svm_best.save(os.path.join(model_directory, 'best_svm_model.h5'))
+model_lstm.save(os.path.join(model_directory, 'lstm_model.h5'))

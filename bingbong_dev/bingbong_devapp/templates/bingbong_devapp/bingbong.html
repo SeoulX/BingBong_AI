@@ -1,43 +1,60 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mental Health Chatbot</title>
+    <title>BingBong AI</title>
+    <link
+      rel="icon"
+      href="{% static 'bingbong_devapp/img/bb.png' %}"
+      type="image/png"
+    />
     <link
       rel="stylesheet"
       href="{% static 'bingbong_devapp/css/bingbong.css' %}"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
-      /* CSS styles here (as provided previously) */
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
   </head>
   <body>
-    <header>
-      <div class="logo1">
-        <a href="#">
-          <img
-            src="{% static 'bingbong_devapp/img/bingbong.png' %}"
-            alt="Logo"
-            width="150"
-          />
-        </a>
-      </div>
-      <button id="logout-btn">Log Out</button>
-    </header>
     <div class="chat-wrapper">
       <div id="history-panel" class="side-panel">
+        <div class="history-header">
+          <button id="hide-history-btn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button id="add-conversation-btn">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        </div>
         <div class="history-container">
-          <h2>History</h2>
-          <ul class="chat-history-list">
+          <ul id="chat-history-list" class="chat-history-list">
             <!-- Chat history list -->
           </ul>
         </div>
       </div>
       <div id="chat-container" class="chat-container">
+        <div class="chat-header">
+          <div class="left-header">
+            <button id="show-history-btn">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="logo1">
+              <a href="#">
+                <img
+                  src="{% static 'bingbong_devapp/img/bingbong.png' %}"
+                  alt="Logo"
+                  width="100"
+                />
+              </a>
+            </div>
+          </div>
+          <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
         <div id="chat-messages" class="chat-history">
           <!-- Messages will be dynamically added here -->
         </div>
@@ -47,55 +64,181 @@
       <input
         type="text"
         id="user-input"
-        placeholder="Type your message here..."
+        placeholder="BingBong is here..."
         autocomplete="off"
       />
-      <button id="send-btn">Send</button>
+      <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
     </div>
 
     <script>
       $(document).ready(function () {
+        var conversationCount = 0;
+        var currentConversation = [];
+        var conversationStarted = false;
+
         $("#send-btn").click(function () {
-          var userMessage = $("#user-input").val().trim();
-          $("#chat-messages").append(
-            '<p class="user-message"><strong>You:</strong> ' +
-              userMessage +
-              "</p>"
-          );
-
-          $.ajax({
-            url: "/process_message/",
-            type: "POST",
-            data: {
-              message: userMessage,
-              csrfmiddlewaretoken: "{{ csrf_token }}",
-            },
-            success: function (response) {
-              $("#chat-messages").append(
-                '<p class="bot-message"><strong>Chatbot:</strong> ' +
-                  response.response +
-                  "</p>"
-              );
-              $("#user-input").val("");
-              scrollToBottom(); // Scroll to bottom after receiving response
-            },
-            error: function (xhr, errmsg, err) {
-              console.log(errmsg);
-            },
-          });
-
-          scrollToBottom(); // Scroll to bottom after sending message
+          sendMessage();
         });
 
-        // Other existing code...
+        $("#user-input").keypress(function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault(); // Prevent default form submission
+            sendMessage();
+          }
+        });
 
-        // Function to scroll to the bottom of the chat messages
+        $("#hide-history-btn").click(function () {
+          $("#history-panel").hide();
+          $("#show-history-btn").show();
+          adjustChatInputPosition();
+        });
+
+        $("#show-history-btn").click(function () {
+          $("#history-panel").show();
+          $("#show-history-btn").hide();
+          adjustChatInputPosition();
+        });
+
+        $("#add-conversation-btn").click(function () {
+          addToHistory(currentConversation);
+          resetConversation();
+        });
+
+        function resetConversation() {
+          // Clear chat messages
+          $("#chat-messages").empty();
+          currentConversation = [];
+          conversationStarted = false; // Reset the flag for new conversation
+          conversationCount++;
+          localStorage.removeItem("conversation-" + conversationCount);
+        }
+
+        function sendMessage() {
+          var userMessage = $("#user-input").val().trim();
+          if (userMessage === "") return;
+
+          if (!conversationStarted) {
+            conversationCount++;
+            addToHistory(currentConversation); // Add new conversation to history
+            conversationStarted = true;
+          }
+
+          $("#chat-messages").append(
+            '<p class="user-message"> ' + userMessage + "</p>"
+          );
+          currentConversation.push({ type: "user", message: userMessage });
+
+          // Clear the input field
+          $("#user-input").val("");
+
+          scrollToBottom();
+
+          // Show typing indicator with a delay
+          setTimeout(function () {
+            $("#chat-messages").append(
+              '<p class="bot-message typing-indicator"><strong></strong> <span class="typing-dots"><span>•</span><span>•</span><span>•</span></span></p>'
+            );
+            scrollToBottom();
+          }, 500); // Delay of 500ms (0.5 seconds)
+
+          // Delay bot response by 5 seconds
+          setTimeout(function () {
+            $.ajax({
+              url: "/process_message/",
+              type: "POST",
+              data: {
+                message: userMessage,
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+              },
+              success: function (response) {
+                $(".typing-indicator").remove();
+                $("#chat-messages").append(
+                  '<p class="bot-message"><strong>Bingbong:</strong> ' +
+                    response.response +
+                    "</p>"
+                );
+                currentConversation.push({
+                  type: "bot",
+                  message: response.response,
+                });
+                scrollToBottom(); // Scroll to bottom after receiving response
+                updateHistory(); // Update history with new message
+              },
+              error: function (xhr, errmsg, err) {
+                console.log(errmsg);
+                $(".typing-indicator").remove();
+              },
+            });
+          }, 1100); // 1.1 seconds delay for bot response (500ms for typing indicator + 0.6 seconds delay)
+        }
+
+        function addToHistory(conversation) {
+          var historyItem = $(
+            '<li class="chat-history-item" data-conversation-id="' +
+              conversationCount +
+              '">Conversation ' +
+              conversationCount +
+              "</li>"
+          );
+          historyItem.click(function () {
+            loadConversation($(this).data("conversation-id"));
+          });
+          $("#chat-history-list").append(historyItem);
+
+          saveConversation(conversationCount, conversation);
+        }
+
+        function saveConversation(conversationId, conversation) {
+          localStorage.setItem(
+            "conversation-" + conversationId,
+            JSON.stringify(conversation)
+          );
+        }
+
+        function loadConversation(conversationId) {
+          var conversation = JSON.parse(
+            localStorage.getItem("conversation-" + conversationId)
+          );
+          if (conversation) {
+            $("#chat-messages").empty();
+            conversation.forEach(function (msg) {
+              if (msg.type === "user") {
+                $("#chat-messages").append(
+                  '<p class="user-message"> ' + msg.message + "</p>"
+                );
+              } else if (msg.type === "bot") {
+                $("#chat-messages").append(
+                  '<p class="bot-message"><strong>Bingbong:</strong> ' +
+                    msg.message +
+                    "</p>"
+                );
+              }
+            });
+            scrollToBottom();
+          }
+        }
+
+        function updateHistory() {
+          saveConversation(conversationCount, currentConversation);
+        }
+
         function scrollToBottom() {
           $("#chat-container").animate(
             { scrollTop: $("#chat-messages").prop("scrollHeight") },
             500
           );
         }
+
+        function adjustChatInputPosition() {
+          if ($("#history-panel").is(":visible")) {
+            $(".chat-input").css("left", "calc(25% + 10px)");
+          } else {
+            $(".chat-input").css("left", "10px");
+          }
+        }
+
+        $("#show-history-btn").hide();
+        adjustChatInputPosition();
       });
     </script>
   </body>

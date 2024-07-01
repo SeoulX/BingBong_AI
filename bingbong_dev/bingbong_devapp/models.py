@@ -8,3 +8,5 @@ class Member(models.Model):
     
     def __str__(self):
         return self.username
+class conversation(models.Model):
+    context = models.CharField(max_length=10000)

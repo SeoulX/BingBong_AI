@@ -76,8 +76,9 @@ body {
 .chat-history {
   flex: 1;
   padding: 10px;
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding-top: 60px; /* Adjust padding to account for the chat header height */
+  overflow-y: auto;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .user-message,

@@ -12,7 +12,7 @@ from .bingbong import get_response
 
 
 def land(request):
-    return render(request, 'bingbong_devapp/landing.html')
+    return render(request, 'bingbong_devapp/bingbong.html')
 
 def signin(request):
     if request.method == "GET":

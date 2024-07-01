@@ -8,5 +8,9 @@ class Member(models.Model):
     
     def __str__(self):
         return self.username
-class conversation(models.Model):
-    context = models.CharField(max_length=10000)
+class Conversation(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='conversations')
+    context = models.TextField()  # Use TextField for potentially long conversations
+
+    def __str__(self):
+        return f"Conversation by {self.member.username}"

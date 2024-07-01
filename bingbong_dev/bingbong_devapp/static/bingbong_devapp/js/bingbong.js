@@ -153,11 +153,11 @@ $(document).ready(function () {
 
   function scrollToBottom() {
     console.log("Scrolling to bottom...");
-    $("#chat-container").animate(
-      { scrollTop: $("#chat-container").prop("scrollHeight") },
+    $("#chat-messages").animate(
+      { scrollTop: $("#chat-messages").prop("scrollHeight") },
       500,
       function() {
-        console.log("Animation completed");
+        console.log("Height of chat-container" , $("#chat-messages").prop("scrollHeight"));
       }
     );
   }

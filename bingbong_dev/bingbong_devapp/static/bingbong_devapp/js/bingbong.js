@@ -1,9 +1,7 @@
 $(document).ready(function () {
+  var conversation = [];
 
-  $("#send-btn").click(function () {
-    sendMessage();
-  });
-
+  $("#send-btn").click(sendMessage);
   $("#user-input").keypress(function (event) {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -24,7 +22,7 @@ $(document).ready(function () {
   });
 
   $("#add-conversation-btn").click(function () {
-    console.log("Add")
+    console.log("Conversation:", conversation);
   });
 
   function sendMessage() {
@@ -34,6 +32,11 @@ $(document).ready(function () {
     $("#chat-messages").append(
       '<p class="user-message"> ' + userMessage + "</p>"
     );
+    conversation.push({
+      sender: "user",
+      message: userMessage,
+      timestamp: new Date(), 
+    });
 
     $("#user-input").val("");
 
@@ -61,6 +64,11 @@ $(document).ready(function () {
               response.response +
               "</p>"
           );
+          conversation.push({
+            sender: "bot",
+            message: response.response,
+            timestamp: new Date(),
+          });
           scrollToBottom(); 
         },
         error: function (xhr, errmsg, err) {
@@ -69,6 +77,7 @@ $(document).ready(function () {
         },
       });
     }, 1100);
+    console.log("Conversation:", conversation);
   }
 
   function scrollToBottom() {

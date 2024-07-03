@@ -12817,7 +12817,7 @@
             ]
         },
         {
-            "tag": "thank_you",
+            "tag": "thank-you",
             "patterns": ["thank you", "thanks", "thank you bingbong"],
             "responses": [
               "You're welcome! It's great to hear that I could help.",
@@ -12830,107 +12830,6 @@
               "No need to thank me! Helping you is what I'm here for.",
               "You're welcome! Stay positive and keep moving forward."
             ]
-        },
-        {
-            "tag": "feeling_sad",
-            "patterns": ["I'm feeling sad.", "I'm so upset.", "Feeling down today.", "I'm feeling blue.", "I'm not okay."],
-            "responses": [
-              "I'm sorry to hear that you're feeling sad. It's okay to feel this way sometimes. Would you like to talk about what's troubling you?",
-              "Feeling sad is tough. Remember, it's okay to take time for yourself and reach out for support when you need it.",
-              "I hear you. It's okay to feel sad. What usually helps you when you're feeling like this?",
-              "When we're sad, it's important to remember that these feelings will pass. Is there something that usually helps you feel better?",
-              "It's okay to feel down sometimes. Is there anything specific you'd like to talk about or do to lighten your mood?"
-            ]
-          },
-          {
-            "tag": "feeling_anxious",
-            "patterns": ["I'm feeling anxious.", "I'm so nervous.", "Feeling stressed out.", "I'm worried.", "I can't stop worrying."],
-            "responses": [
-              "It sounds like you're feeling anxious. Take a deep breath with me. Inhale deeply, hold it, and exhale slowly. How are you feeling now?",
-              "Anxiety can be overwhelming. Remember, you're not alone. Is there something specific that's causing you to feel this way?",
-              "Feeling anxious is tough. Try focusing on things you can control right now. What's something that usually helps you relax?",
-              "When we're anxious, taking a moment to pause and breathe deeply can help. Is there a particular activity or thought that usually calms you down?"
-            ]
-          },
-          {
-            "tag": "feeling_angry",
-            "patterns": ["I'm feeling angry.", "I'm so mad.", "I'm frustrated.", "I'm furious.", "I'm upset and angry."],
-            "responses": [
-              "It sounds like you're feeling angry. It's okay to feel this way. What's causing you to feel upset?",
-              "Anger is a natural emotion. Take a moment to breathe deeply and think about what triggered your anger.",
-              "Feeling angry can be intense. Is there something you'd like to talk about or do to help release some of that frustration?",
-              "When we're angry, finding a healthy way to express our feelings can help. Is there an activity or outlet that usually helps you feel better?"
-            ]
-          },
-          {
-            "tag": "feeling_lonely",
-            "patterns": ["I'm feeling lonely.", "I'm all alone.", "Feeling isolated.", "I feel like I have no one.", "I'm missing companionship."],
-            "responses": [
-              "Feeling lonely can be tough. Remember, you're not alone in feeling this way. Is there something you'd like to share or talk about?",
-              "Loneliness is a common feeling. What's something that usually helps you feel more connected or supported?",
-              "It's okay to feel lonely sometimes. Reach out to someone you trust or engage in activities that bring you comfort.",
-              "When we're feeling lonely, reaching out to a friend or loved one can make a big difference. Is there someone you'd like to connect with?"
-            ]
-          },
-          {
-            "tag": "feeling_excited",
-            "patterns": ["I'm feeling excited!", "I'm thrilled!", "I'm pumped up.", "I'm so enthusiastic.", "I can't wait!"],
-            "responses": [
-              "That's fantastic! What's making you feel so excited?",
-              "I'm excited for you! What's happening that's got you feeling so enthusiastic?",
-              "Excitement is contagious! What's the special occasion?",
-              "When we're excited, it's great to celebrate! Is there something you're looking forward to or an achievement you'd like to share?"
-            ]
-          },
-          {
-            "tag": "feeling_confident",
-            "patterns": ["I'm feeling confident.", "I'm self-assured.", "I believe in myself.", "I'm ready to take on challenges.", "I'm feeling empowered."],
-            "responses": [
-              "Confidence looks good on you! What's giving you this boost of self-assurance?",
-              "You radiate confidence! Is there something specific you're proud of or excited about?",
-              "I'm glad to hear you're feeling empowered! What's motivating you right now?",
-              "When we're confident, we're unstoppable! Is there a goal or challenge you're excited to tackle?"
-            ]
-          },
-          {
-            "tag": "feeling_grateful",
-            "patterns": ["I'm feeling grateful.", "I'm thankful.", "I appreciate everything.", "I feel blessed.", "I'm full of gratitude."],
-            "responses": [
-              "Gratitude is a wonderful feeling! What's something in particular that you're grateful for today?",
-              "I'm happy to hear you're feeling grateful. Practicing gratitude can have a positive impact on your well-being.",
-              "It's great to focus on gratitude. What's brought this feeling of appreciation into your day?",
-              "When we're grateful, we find joy in the little things. Is there someone or something you'd like to express gratitude for today?"
-            ]
-          },
-          {
-            "tag": "feeling_curious",
-            "patterns": ["I'm feeling curious.", "I'm interested in learning.", "I want to explore.", "I'm eager to discover.", "I have questions."],
-            "responses": [
-              "Curiosity is a sign of a curious mind! What's something you're curious about right now?",
-              "I'm glad to hear you're curious! Asking questions and seeking answers can lead to exciting discoveries.",
-              "Curiosity is the key to learning! What's piqued your interest lately?",
-              "When we're curious, we're always learning! Is there a topic or idea you'd like to explore further?"
-            ]
-          },
-          {
-            "tag": "feeling_bored",
-            "patterns": ["I'm feeling bored.", "I'm so bored.", "I have nothing to do.", "I need something exciting.", "I'm feeling uninterested."],
-            "responses": [
-              "Boredom happens. Is there something you'd like to do or talk about to make things more interesting?",
-              "Feeling bored? Let's brainstorm some activities or topics that might spark your interest.",
-              "Boredom can be a sign that you're ready for something new. What's something you've been curious to try?",
-              "When we're bored, trying something different can help shake things up. Is there an activity you've been meaning to revisit or try?"
-            ]
-          },
-          {
-            "tag": "feeling_motivated",
-            "patterns": ["I'm feeling motivated.", "I'm determined.", "I have goals.", "I'm driven to succeed.", "I'm ready to achieve."],
-            "responses": [
-              "Motivation is key! What's inspiring you to stay motivated?",
-              "I'm glad to hear you're feeling motivated. Keeping your goals in sight can help you stay on track.",
-              "Feeling motivated is a great feeling! What's driving you towards your goals right now?",
-              "When we're motivated, we're unstoppable! Is there a goal or project you're excited to work on?"
-            ]
-          }
+        }
     ]
 }

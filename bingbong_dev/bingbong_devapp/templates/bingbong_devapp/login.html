@@ -8,7 +8,7 @@
     <div class="popup">
         <div class="close-btn" onclick="closeSignUp()">&times;</div>
         {% csrf_token %}
-            <form method="POST" action="{% url 'login' %}">  
+            <form method="GET" action="{% url 'login' %}">  
                 {% csrf_token %} 
                 
                 <div class="form">

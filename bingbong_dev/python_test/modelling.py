@@ -46,7 +46,6 @@ for intent in data['intents']:
 
 df = pd.DataFrame({'tag': tags, 'pattern': patterns, 'response': responses})
 
-# Function to preprocess text
 lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 
@@ -72,7 +71,7 @@ y = label_encoder.fit_transform(df['tag'])
 joblib.dump(label_encoder, os.path.join(BASE_DIR, 'saved_models', 'label_encoder.pkl'))
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # Initialize models
 nb_model = MultinomialNB()

@@ -21,12 +21,18 @@
     />
   </head>
   <body>
+    {% csrf_token %} 
     <div class="chat-wrapper">
       <div id="history-panel" class="side-panel">
         <div class="history-header">
           <button id="hide-history-btn">
             <i class="fas fa-chevron-left"></i>
           </button>
+          {% if member_username %}
+              <input type="hidden" id="logged-in-username" value="{{ member_username }}"> 
+          {% else %}
+              <p>You are not logged in.</p>
+          {% endif %}
           <button id="add-conversation-btn">
             <i class="fas fa-pencil-alt"></i>
           </button>
@@ -65,6 +71,7 @@
         id="user-input"
         placeholder="BingBong is here..."
         autocomplete="off"
+        name="userInput"
       />
       <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
     </div>

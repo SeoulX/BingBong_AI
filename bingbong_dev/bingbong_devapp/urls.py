@@ -7,6 +7,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('bingbong/', views.bingbong, name='bingbong'),
     
-    # Processes
     path('process_message/', views.process_message, name='process_message'),
+    path('save_conversation/', views.save_conversation, name='save_conversation'),
 ]

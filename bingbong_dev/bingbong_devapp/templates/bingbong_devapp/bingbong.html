@@ -58,7 +58,12 @@
               </a>
             </div>
           </div>
-          <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+          <form method="POST" action="{% url 'logout' %}" id="logout-form">
+            {% csrf_token %}
+            <button type="submit" id="logout-btn">
+              <i class="fas fa-sign-out-alt"></i> Logout 
+            </button>
+          </form>
         </div>
         <div id="chat-messages" class="chat-history">
           <!-- Messages will be dynamically added here -->

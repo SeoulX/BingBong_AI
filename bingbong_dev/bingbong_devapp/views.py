@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .bingbong import *
+from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime
 import json
@@ -14,7 +15,7 @@ from python_test.train import generate_response
 
 
 def land(request):
-    return render(request, 'bingbong_devapp/login.html')
+    return render(request, 'bingbong_devapp/landing.html')
 
 def is_authenticated(request):
     return request.session.get('member') is not None
@@ -163,3 +164,7 @@ def process_message(request):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
+def logout_view(request):
+    logout(request)
+    print("Logged out:", request.session.get('member'))
+    return redirect('login')

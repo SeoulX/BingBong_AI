@@ -6,7 +6,7 @@
     <div class="center">
     </div>
     <div class="popup">
-        <div class="close-btn" onclick="closeSignUp()">&times;</div>
+        <a href="{% url 'land' %}" class="close-btn" >&times;</a>
         {% csrf_token %}
             <form method="GET" action="{% url 'login' %}">  
                 {% csrf_token %} 
@@ -37,7 +37,7 @@
                     </div>
         
                     <div class="form-element">
-                        <input type="checkbox" id="showpassword" onclick="showPass">
+                        <input type="checkbox" id="showpassword" onclick="showPass()">
                         <label for="showpassword">Show Password</label>
                     </div>
         
@@ -51,4 +51,4 @@
                 </div>
             </form>
     </div>
-    <script src="{% static 'bingbong_devapp/js/signup.js' %}"></script>
+    <script src="{% static 'bingbong_devapp/js/login.js' %}"></script>

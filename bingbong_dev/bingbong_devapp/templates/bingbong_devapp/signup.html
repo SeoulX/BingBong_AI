@@ -6,7 +6,7 @@
     <button id="show-signup">Sign Up</button>
 </div>
 <div class="popup">
-    <div class="close-btn" onclick="closeSignUp()">&times;</div>
+    <a href="{% url 'land' %}" class="close-btn" >&times;</a>
     <div class="form">
         <div class="logo1">
             <a href="#">
@@ -44,7 +44,7 @@
 
         <div class="form-element">
             <label for="account">Already have an account?</label>
-            <a href="/signin/">Sign in</a>
+            <a href="/login/">Sign in</a>
         </div>
     </div>
 </div>

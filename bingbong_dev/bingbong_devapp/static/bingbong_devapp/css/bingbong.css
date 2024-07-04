@@ -18,13 +18,12 @@ body {
 }
 
 .side-panel {
-  flex: 0 0 25%; /* Fixed width for chat history */
+  flex: 0 0 25%;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #333; /* Adjusted border side */
-  background-color: rgb(199, 199, 169); /* Dark background color */
-  overflow-y: auto; /* Enable vertical scrolling */
-  transition: transform 0.3s ease-in-out;
+  background-color: rgb(199, 199, 169);
+  overflow-y: auto;
+  transition: transform 1s ease-in-out;
   transform: translateX(0);
 }
 
@@ -38,8 +37,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 50px; /* Ensure both headers have the same height */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  height: 50px;
+  box-sizing: border-box;
 }
 
 .chat-header {
@@ -88,6 +87,35 @@ body {
   overflow-y: auto;
   padding-top: 60px;
   padding-bottom: 60px;
+}
+
+.btn-history{
+  border: none;
+  background-color: transparent;
+}
+         
+.btn-grad {
+  background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%);
+  margin: 10px 1px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 20px gray;
+  border-radius: 10px;
+  display: block;
+}
+.btn-grad:hover {
+  background-position: right center; 
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-grad.latest-conversation {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .user-message,
@@ -230,7 +258,6 @@ body {
 
 .chat-history-list li {
   padding: 10px;
-  border-bottom: 1px solid #333;
   cursor: pointer;
 }
 

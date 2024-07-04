@@ -9,4 +9,6 @@ urlpatterns = [
     
     path('process_message/', views.process_message, name='process_message'),
     path('save_conversation/', views.save_conversation, name='save_conversation'),
+    path('get_conversations/', views.get_conversations, name='get_conversations'),
+    path('get_conversation_details/', views.get_conversation_details, name='get_conversation_details'),
 ]

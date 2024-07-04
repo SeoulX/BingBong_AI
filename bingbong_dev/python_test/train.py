@@ -97,9 +97,13 @@ def generate_response(user_input):
         ]
         )
     
-    promp = f"User Input: {user_input} \n Model Input: {best_response} \n Give a humanized version of the model output. Always remember you are BingBong a friendly bot."
+    print("User:", user_input)
+    print("Model:", best_response)
+    promp = f"User Input: {user_input} \n Model Input: {best_response} \n Give a paraphrased version of the model output. Or, if it doesn't make sense to the user input, change the response. Always remember you are BingBong a friendly bot. Remove quotation marks on your reply"
     
     response = chat_session.send_message(promp)
+    
+    print(response.text)
     
     return response.text
 

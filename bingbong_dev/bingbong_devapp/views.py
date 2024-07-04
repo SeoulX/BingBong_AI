@@ -90,19 +90,23 @@ def save_conversation(request):
                 member = Member.objects.get(username=member_data['username'])
                 
                 conversation_data = json.loads(conversation_data_json)
+                print("Json:", conversation_data)
+                
                 if conversationId: 
                     conversation = Conversation.objects.get(conversation_id=conversationId) 
                     conversation.messages = json.dumps(conversation_data)
-                    if not conversation.analyzed and len(conversation_data) == 6:
+                    if not conversation.analyzed and len(conversation_data) <= 4:
                         result = analyze_conversation(conversation_data)
                         conversation.sentiment = result['average_sentiments']
-                        conversation.topic = result['topic']
                         conversation.analyzed = True
                 else:
                     conversation = Conversation.objects.create(
                         member=member, 
                         messages=json.dumps(conversation_data)
                     )
+                
+                topic = f"Record {datetime.now().strftime("%m-%d-%Y %I:%M %p")}"
+                conversation.topic = topic
                     
                 conversation.save()
 
@@ -115,7 +119,40 @@ def save_conversation(request):
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
 @csrf_exempt
-def process_message(request, ):
+def get_conversations(request):
+    if request.method == "GET":
+        member_data = request.session.get('member')
+        if member_data:
+            try:
+                member = Member.objects.get(username=member_data['username'])
+                conversations = Conversation.objects.filter(member=member)
+                serialized_convos = [
+                    {'conversation_id': c.conversation_id, 'topic': c.topic, 'sentiment': c.sentiment}
+                    for c in conversations
+                ]
+                return JsonResponse({'conversations': serialized_convos})
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Missing data'}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def get_conversation_details(request):
+    if request.method == "GET":
+        conversation_id = request.GET.get('conversation_id')
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=conversation_id)
+            messages = json.loads(conversation.messages)
+            return JsonResponse({'messages': messages})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Authentication required'}, status=401)
+
+@csrf_exempt
+def process_message(request):
     if request.method == 'POST':
         user_message = request.POST.get('message', '')
         if user_message.lower() == 'exit':

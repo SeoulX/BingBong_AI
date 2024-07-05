@@ -70,15 +70,14 @@ $(document).ready(function () {
           let convo = conversations[i];
           let listItem = $('<li class="btn-grad">');
           let button = $('<button class="btn-history">').text(convo.topic).attr('data-conversation-id', convo.conversation_id);
-          updateButtonColorExist(listItem, convo.sentiment);
+          updateButtonColorExist(listItem, convo.sentiment)
           
-          button.click(function () {
+          listItem.click(function () {
               loadConversation(convo.conversation_id);
           });
           listItem.append(button); 
           if (i === 0) {
             console.log("Sentiment: ", convo.sentiment)
-            if(convo.sentiment === null){
               listItem.appendTo(chatHistoryList); 
               listItem.css({ 
               transform: "scale(1)",
@@ -91,9 +90,6 @@ $(document).ready(function () {
                 opacity: 1 }, 
                 500, "swing");
               }, 10);
-            }else{
-              updateButtonColor(listItem, convo.sentiment)
-            }
         } else {
             listItem.append(button); 
             chatHistoryList.append(listItem);
@@ -193,7 +189,7 @@ $(document).ready(function () {
                 "</p>"
             );
             conversation.push({
-              sender: "Bingbong",
+              sender: "BingBong",
               message: response.response,
             });
             scrollToBottom();

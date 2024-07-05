@@ -13,11 +13,11 @@ nltk.download('punkt')
 
 def analyze_conversation(conversation_data):
     
-    user_messages = [msg["message"] for msg in conversation_data]
+    user_messages = [msg["message"] for msg in conversation_data if msg["sender"] != "BingBong"]
     
     print("User_messages:", user_messages)
 
-    if len(user_messages) <= 2:
+    if len(user_messages) < 3:
         return {"average_sentiments": None}
 
     sentiments = [sia.polarity_scores(msg)["compound"] for msg in user_messages]

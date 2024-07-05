@@ -11,17 +11,12 @@ from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import datetime
 import json
-from python_test.train import generate_response
+from python_test.BingBongAI import generate_response
 
 
 def land(request):
+    messages.clear()
     return render(request, 'bingbong_devapp/landing.html')
-
-def is_authenticated(request):
-    return request.session.get('member') is not None
-
-def get_session_data(request):
-    return request.session.get('member', {})
 
 def signin(request):
     if request.method == "GET":
@@ -96,7 +91,8 @@ def save_conversation(request):
                 if conversationId: 
                     conversation = Conversation.objects.get(conversation_id=conversationId) 
                     conversation.messages = json.dumps(conversation_data)
-                    if not conversation.analyzed and len(conversation_data) <= 4:
+                    print("len", len(conversation_data))
+                    if not conversation.analyzed and len(conversation_data) == 6:
                         result = analyze_conversation(conversation_data)
                         conversation.sentiment = result['average_sentiments']
                         conversation.analyzed = True
@@ -106,7 +102,7 @@ def save_conversation(request):
                         messages=json.dumps(conversation_data)
                     )
                 
-                topic = f"Record {datetime.now().strftime('%m-%d-%Y %I:%M %p')}"
+                topic = f"Record {datetime.now().strftime("%m-%d-%Y %I:%M %p")}"
                 conversation.topic = topic
                     
                 conversation.save()
@@ -165,6 +161,6 @@ def process_message(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
 def logout_view(request):
-    logout(request)
     print("Logged out:", request.session.get('member'))
+    logout(request)
     return redirect('login')

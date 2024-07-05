@@ -106,7 +106,7 @@ def save_conversation(request):
                         messages=json.dumps(conversation_data)
                     )
                 
-                topic = f"Record {datetime.now().strftime("%m-%d-%Y %I:%M %p")}"
+                topic = f"Record {datetime.now().strftime('%m-%d-%Y %I:%M %p')}"
                 conversation.topic = topic
                     
                 conversation.save()

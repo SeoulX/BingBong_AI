@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> BingBong AI</title>
+    <title>BingBong AI</title>
     <link
       rel="stylesheet"
       href="{% static 'bingbong_devapp/css/landing.css' %}"
@@ -27,14 +27,14 @@
     <main>
       <div class="hero">
         <div class="intro">
-            <div class="logo">
-                <a href="#">
-                  <img
-                    src="{% static 'bingbong_devapp/img/bingbong.png' %}"
-                    alt="Logo"
-                  />
-                </a>
-              </div>
+          <div class="logo">
+            <a href="#">
+              <img
+                src="{% static 'bingbong_devapp/img/bingbong.png' %}"
+                alt="Logo"
+              />
+            </a>
+          </div>
           <h1>Introducing BingBong AI</h1>
           <p>
             We’ve trained a model called BingBong AI, a simple AI chatbot
@@ -66,11 +66,18 @@
             learn about its strengths and weaknesses. During the research
             preview, usage of BingBong AI is free. Try it now!
           </p>
+          <p class = "disclaimer">
+            Disclaimer: By using Bingbong AI, you give your consent to engage in a conversation with the chatbot. Please be aware that all conversations will be saved for research and improvement purposes. Informed consent is obtained from all participants, and you are assured of your right to withdraw from using the chatbot at any time.
+          </p>
           <div class="buttons">
             <a href="/login/" class="btn">Try BingBong AI</a>
           </div>
         </div>
       </div>
     </main>
+    <footer>
+      <p>Technological Institute of the Philippines - Manila</p>
+      <p>College of Computer Studies</p>
+    </footer>
   </body>
 </html>

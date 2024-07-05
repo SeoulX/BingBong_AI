@@ -3,15 +3,15 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: rgb(233, 233, 200); /* Dark background color */
+  background-color: rgb(233, 233, 200);
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensure full viewport height */
+  min-height: 100vh;
 }
 
 .chat-wrapper {
   display: flex;
-  flex: 1; /* Take up remaining vertical space */
+  flex: 1;
   align-items: stretch;
   overflow: hidden;
   max-height: 100vh;
@@ -48,28 +48,28 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 50px; /* Ensure both headers have the same height */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  height: 50px;
+  box-sizing: border-box;
 }
 
 .history-container {
-  flex: 1; /* Fill available height */
+  flex: 1;
   padding: 10px;
   overflow-y: auto;
   position: relative;
 }
 
 .chat-container {
-  flex: 1; /* Fill remaining space */
+  flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Hide overflow */
-  position: relative; /* To ensure the header is positioned correctly */
+  overflow: hidden;
+  position: relative;
   overflow-y: auto;
 }
 
 .chat-header {
-  position: sticky; /* Ensure the chat header sticks to the top of the chat container */
+  position: sticky; 
   top: 0;
   z-index: 10;
   display: flex;
@@ -184,21 +184,21 @@ body {
   display: flex;
   align-items: center;
   padding: 5px 10px;
-  background-color: white; /* Dark background color */
-  border-radius: 20px; /* Rounded corners */
+  background-color: white;
+  border-radius: 20px;
   position: fixed;
-  bottom: 10px; /* Position it at the bottom */
-  left: calc(25% + 10px); /* Adjust based on side-panel width */
+  bottom: 10px; 
+  left: calc(25% + 10px);
   right: 10px;
 }
 
 #user-input {
   flex: 1;
   padding: 10px;
-  border: none; /* Remove default border */
-  border-radius: 20px; /* Rounded corners */
-  background-color: #e8e5e5; /* Darker background color */
-  color: rgb(0, 0, 0); /* White text color */
+  border: none; 
+  border-radius: 20px; 
+  background-color: #e8e5e5;
+  color: rgb(0, 0, 0);
   font-size: 16px;
 }
 
@@ -272,26 +272,25 @@ body {
   margin-left: 20px;
 }
 
-/* Additional Styles for History Items */
 .chat-history-item {
-  background-color: #f0f0f0; /* Light grey background */
-  margin: 5px 0; /* Space between items */
-  padding: 10px; /* Padding inside the item */
-  border-radius: 10px; /* Rounded corners */
-  transition: background-color 0.3s; /* Smooth transition */
+  background-color: #f0f0f0;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
 }
 
 .chat-history-item:hover {
-  background-color: #dcdcdc; /* Slightly darker grey on hover */
+  background-color: #dcdcdc;
 }
 
 .chat-history-item.active {
-  background-color: #7e8d4f; /* Highlight active item */
-  color: white; /* White text color for active item */
+  background-color: #7e8d4f;
+  color: white;
 }
 
 .chat-history-item span {
   display: block;
   font-size: 14px;
-  color: #888; /* Grey color for date/time */
+  color: #888;
 }

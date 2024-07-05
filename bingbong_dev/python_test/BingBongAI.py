@@ -45,7 +45,6 @@ all_patterns = ' '.join(df['patterns'])
 
 import re
 
-# Preprocessing function
 def preprocess_text(s):
     s = re.sub('[^a-zA-Z\']', ' ', s)
     s = s.lower() 
@@ -53,7 +52,6 @@ def preprocess_text(s):
     s = " ".join(s)
     return s
 
-# Apply preprocessing to the patterns
 df['patterns'] = df['patterns'].apply(preprocess_text)
 df['tag'] = df['tag'].apply(preprocess_text)
 
@@ -89,7 +87,6 @@ def encode_texts(texts, max_len):
     
     return torch.cat(input_ids, dim=0), torch.cat(attention_masks, dim=0)
 
-# Encoding labels
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 num_labels = len(np.unique(y_encoded))
@@ -129,13 +126,13 @@ def predict_intent(text, model, tokenizer, label_encoder, max_len=128):
 
     with torch.no_grad():
         outputs = model(input_ids, attention_mask=attention_mask)
-        logits = outputs.logits  # Get logits directly
+        logits = outputs.logits
 
     probabilities = F.softmax(logits, dim=1)
     predicted_class_index = torch.argmax(probabilities).item()
 
     predicted_label = label_encoder.inverse_transform([predicted_class_index])[0]
-    confidence = probabilities[0][predicted_class_index].item()  # Get confidence as a float
+    confidence = probabilities[0][predicted_class_index].item()
     return predicted_label, confidence
 
 model, tokenizer = load_model_and_tokenizer(num_labels)

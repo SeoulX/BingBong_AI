@@ -15,7 +15,6 @@ from python_test.BingBongAI import generate_response
 
 
 def land(request):
-    messages.clear()
     return render(request, 'bingbong_devapp/landing.html')
 
 def signin(request):
@@ -86,12 +85,10 @@ def save_conversation(request):
                 member = Member.objects.get(username=member_data['username'])
                 
                 conversation_data = json.loads(conversation_data_json)
-                print("Json:", conversation_data)
                 
                 if conversationId: 
                     conversation = Conversation.objects.get(conversation_id=conversationId) 
                     conversation.messages = json.dumps(conversation_data)
-                    print("len", len(conversation_data))
                     if not conversation.analyzed and len(conversation_data) == 6:
                         result = analyze_conversation(conversation_data)
                         conversation.sentiment = result['average_sentiments']

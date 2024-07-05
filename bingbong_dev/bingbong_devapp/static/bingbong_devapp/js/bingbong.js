@@ -2,6 +2,7 @@ $(document).ready(function () {
   var conversation = [];
   var conversationID = null;
   var loggedInUsername = $("#logged-in-username").val();
+  const audio = document.getElementById('my-audio');
 
   loadConversationHistory();
 
@@ -157,6 +158,7 @@ $(document).ready(function () {
       $("#chat-messages").append(
         '<p class="user-message"> ' + userMessage + "</p>"
       );
+      // audio.play();
       conversation.push({
         sender: loggedInUsername,
         message: userMessage,
@@ -188,6 +190,7 @@ $(document).ready(function () {
                 response.response +
                 "</p>"
             );
+            // audio.play();
             conversation.push({
               sender: "BingBong",
               message: response.response,

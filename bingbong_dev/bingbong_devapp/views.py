@@ -38,7 +38,7 @@ def signin(request):
             else:
                 messages.error(request, 'Incorrect password')
         except Member.DoesNotExist:
-            messages.error(request, 'User not found')
+            messages.error(request, '')
 
     return render(request, 'bingbong_devapp/login.html')
 
@@ -91,7 +91,9 @@ def save_conversation(request):
                     conversation.messages = json.dumps(conversation_data)
                     if not conversation.analyzed and len(conversation_data) == 6:
                         result = analyze_conversation(conversation_data)
+                        # topic = result['topic']
                         conversation.sentiment = result['average_sentiments']
+                        # conversation.topic = topic
                         conversation.analyzed = True
                 else:
                     conversation = Conversation.objects.create(

@@ -43,6 +43,8 @@ df = pd.DataFrame.from_dict(dic)
 df_responses = df.explode('responses')
 all_patterns = ' '.join(df['patterns'])
 
+# Preprocessing the Dataset============================================
+
 import re
 
 def preprocess_text(s):
@@ -65,27 +67,10 @@ y = df['tag']
 X = df['patterns']
 y = df['tag']
 
+# Implementation of NLP & Sentiment Analysis (BERT) ===================
+
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 max_len = 128
-
-def encode_texts(texts, max_len):
-    input_ids = []
-    attention_masks = []
-    
-    for text in texts:
-        encoded_dict = tokenizer.encode_plus(
-            text,
-            add_special_tokens=True,
-            max_length=max_len,
-            pad_to_max_length=True,
-            return_attention_mask=True,
-            return_tensors='pt',
-        )
-        
-        input_ids.append(encoded_dict['input_ids'])
-        attention_masks.append(encoded_dict['attention_mask'])
-    
-    return torch.cat(input_ids, dim=0), torch.cat(attention_masks, dim=0)
 
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
